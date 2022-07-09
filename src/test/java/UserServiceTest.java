@@ -13,6 +13,9 @@ public class UserServiceTest {
     private final String testLastName = "Ivanov";
     private final byte testAge = 5;
 
+    public UserServiceTest() throws ClassNotFoundException {
+    }
+
 
     @Test
     public void dropUsersTable() {
