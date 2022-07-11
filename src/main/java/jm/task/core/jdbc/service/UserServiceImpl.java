@@ -9,7 +9,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao = new UserDaoJDBCImpl();
 
-    public UserServiceImpl() throws ClassNotFoundException {
+    public UserServiceImpl()  {
     }
 
 
@@ -30,7 +30,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        List<User> users =  userDao.getAllUsers();
+        for (User user : users) {
+            System.out.println(user);
+        }
+        return users;
     }
 
     public void cleanUsersTable() {
