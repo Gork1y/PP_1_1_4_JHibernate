@@ -7,9 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
-
+@Transactional
 public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
     }
