@@ -21,10 +21,10 @@ public class User {
     @Column (name = "id")
     private Long id;
 
-    @Column (name = "name")
+    @Column (name = "firstname")
     private String name;
 
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
 
     @Column (name = "age")

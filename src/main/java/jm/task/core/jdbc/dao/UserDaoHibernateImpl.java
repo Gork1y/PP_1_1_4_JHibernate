@@ -1,11 +1,9 @@
 package jm.task.core.jdbc.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
@@ -21,7 +19,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void createUsersTable() {
         String query = """
-                CREATE TABLE if not exists users (
+                CREATE TABLE if not exists user (
                 	id bigint auto_increment NOT NULL,
                 	firstname varchar(100) NOT NULL,
                 	lastname varchar(100) NULL,
@@ -40,7 +38,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        String dropTableQuery = "DROP TABLE IF EXISTS users";
+        String dropTableQuery = "DROP TABLE IF EXISTS user";
         try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.createSQLQuery(dropTableQuery).executeUpdate();
@@ -81,26 +79,17 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
+        List<User> users = null;
+
         try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createNativeQuery("Select * from user");
-            List<Object[]> smth = query.list();
-            for (Object[] objects : smth) {
-                User user = new User();
-                user.setId(Long.valueOf((String) objects[0]));
-                user.setAge(Byte.valueOf((String) objects[1]));
-                user.setLastName((String) objects[2]);
-                user.setName((String) objects[3]);
-                users.add(user);
-            }
+            users = session.createQuery("SELECT i from User i", User.class).getResultList();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
+                e.printStackTrace();
             }
-            e.printStackTrace();
-
         }
         return users;
     }
